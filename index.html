@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Compleanni</title>
+</head>
+
+<body>
+
+      <h1 id="date">Data:</h1>
+
+      <article id="modelInput">
+            <img src="./assets/balloongreen.png">
+            <input id="name" placeholder="Nome">
+            <span id="spanDate">
+                  <input type="number" id="month" placeholder="mese" max="31" min="1" step="1">
+                  <input type="number" id="day" placeholder="giorno" max="12" min="1" step="1">
+            </span>
+            <img id="add" src="./assets/plus-g665271a8b_640.png">
+      </article>
+      <span style="display: flex;     justify-content: center;">
+
+            <button id="recoveryData">Recupera dati</button>
+      </span>
+      <div id="birthdayList">
+      </div>
+</body>
+
+</html>
+
+<script>
+      function recoveryData() {
+            const data = localStorage.getItem("compleanniApp");
+            birthdayListVar = data
+            document.getElementById("birthdayList").innerHTML = birthdayListVar
+            let nDates = document.getElementsByClassName("remove").length
+
+            for (let i = 0; i < nDates; i++) {
+                  document.getElementsByClassName("remove")[i].addEventListener("click", (e) => {
+                        document.getElementsByClassName("remove")[i].parentNode.remove()
+                        birthdayListVar = document.getElementById("birthdayList").innerHTML
+                        localStorage.setItem("compleanniApp", birthdayListVar);
+
+                  }
+                  )
+            }
+
+            console.log(str);
+            // Expected output: "012345678"
+
+      }
+      document.getElementById("recoveryData").addEventListener("click", recoveryData)
+
+      showDate()
+      function showDate() {
+            const date1 = new Date(Date.now());
+            const myElaboratedDate = date1.toISOString().replace("T", "-").split("-");
+            document.getElementById("date").innerText = myElaboratedDate[2] + "/" + myElaboratedDate[1]
+      }
+      setInterval(() => {
+            const date1 = new Date(Date.now());
+            const myElaboratedDate = date1.toISOString().replace("T", "-").split("-");
+            document.getElementById("date").innerText = myElaboratedDate[2] + "/" + myElaboratedDate[1]
+            console.log("ok")
+      }, 43200000
+      );
+
+      let birthdayListVar = ""
+      function createNewArticle(name, day, month) {
+            if (name == "" || day == "" || month == "") {
+                  alert("Informazioni mancanti")
+                  return
+            }
+            birthdayListVar +=
+                  `<article>
+                        <img src="./assets/balloongreen.png">
+                        <h3>${name}</h3>
+                        <h3>${day}/${month}</h3>
+                        <img class="remove" src="./assets/less.png">
+                  </article>`
+            document.getElementById("birthdayList").innerHTML = birthdayListVar
+            document.getElementById("name").value = ""
+            document.getElementById("day").value = ""
+            document.getElementById("month").value = ""
+            localStorage.setItem("compleanniApp", birthdayListVar);
+            for (const birthday of document.getElementsByClassName("remove")) {
+                  birthday.addEventListener("click", (e) => {
+                        birthday.parentNode.remove()
+                        birthdayListVar = document.getElementById("birthdayList").innerHTML
+                        localStorage.setItem("compleanniApp", birthdayListVar);
+
+                  });
+
+
+            }
+
+      }
+      add.addEventListener("click", () => { createNewArticle(document.getElementById("name").value, document.getElementById("day").value, document.getElementById("month").value) })
+
+</script>
+
+<style>
+      @import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
+
+      * {
+            font-family: 'Rock Salt', cursive;
+      }
+
+      html {
+            min-height: 100%;
+            box-shadow: inset 0px 0px 250px 11px #ff0000;
+      }
+
+      h1 {
+            text-align: center;
+      }
+
+      img {
+            width: 10%;
+            aspect-ratio: 1/2;
+            max-height: 80px;
+            max-width: 80px;
+      }
+
+      #add {
+            aspect-ratio: 1/1;
+            filter: drop-shadow(10px -1px 4px black);
+            width: 12%;
+
+      }
+
+
+      article {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+      }
+
+      article {
+            padding-top: 20px;
+      }
+
+      div {
+            display: flex;
+            flex-direction: column;
+            margin-top: 50px
+      }
+
+      input {
+            font-size: large;
+            text-align: center;
+            box-shadow: 0px 0px 30px 5px black;
+            border-radius: 10px;
+      }
+
+      #spanDate {
+            display: flex
+      }
+
+      #name {
+            width: 40%;
+      }
+
+      #modelInput {
+            padding-bottom: 50px;
+      }
+
+      @media screen and (min-width: 1px) and (max-width: 390px) {
+            #spanDate {
+                  flex-direction: column;
+            }
+
+      }
+</style>
